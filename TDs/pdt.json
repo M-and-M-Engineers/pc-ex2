@@ -1,0 +1,51 @@
+{
+    "id": "urn:pdt",
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "title": "SmartPresenceDetectorThing",
+    "description": "Smart Presence Detector to track presence of people",
+    "securityDefinitions": {
+        "nosec_sc": {
+            "scheme": "nosec"
+        }
+    },
+    "security": [
+        "nosec_sc"
+    ],
+    "properties": {
+        "detected": {
+            "type": "integer",
+            "forms": [
+                {
+                    "href": "http://localhost:10001/properties/detected",
+                    "op": [
+                        "readproperty"
+                    ],
+                    "contentType": "application/json"
+                }
+            ],
+            "readOnly": true,
+            "writeOnly": false,
+            "observable": true
+        }
+    },
+    "events": {
+        "entrance": {
+            "forms": [
+                {
+                    "href": "http://localhost:10001/events/entrance",
+                    "op": "subscribeevent",
+                    "contentType": "application/json"
+                }
+            ]
+        },
+        "exit": {
+            "forms": [
+                {
+                    "href": "http://localhost:10001/events/exit",
+                    "op": "subscribeevent",
+                    "contentType": "application/json"
+                }
+            ]
+        }
+    }
+}

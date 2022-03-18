@@ -1,0 +1,31 @@
+{
+    "id": "urn:vuit",
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "title": "SmartVocalUIThing",
+    "description": "Smart Vocal UI that listens for user vocal commands.",
+    "securityDefinitions": {
+        "nosec_sc": {
+            "scheme": "nosec"
+        }
+    },
+    "security": [
+        "nosec_sc"
+    ],
+    "properties": {
+        "userPolicy": {
+            "type": "string",
+            "forms": [
+                {
+                    "href": "http://localhost:10004/properties/userPolicy",
+                    "op": [
+                        "readproperty"
+                    ],
+                    "contentType": "application/json"
+                }
+            ],
+            "readOnly": true,
+            "writeOnly": false,
+            "observable": true
+        }
+    }
+}

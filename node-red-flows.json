@@ -1,0 +1,405 @@
+[
+    {
+        "id": "18c1a16c3624dbe9",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f04d2c6add766a5c",
+        "type": "subscribe-event",
+        "z": "18c1a16c3624dbe9",
+        "name": "",
+        "topic": "",
+        "thing": "ecf5c7010241d155",
+        "event": "entrance",
+        "x": 160,
+        "y": 460,
+        "wires": [
+            [
+                "d37284e386a62d51"
+            ]
+        ]
+    },
+    {
+        "id": "23a6feee4884bc3e",
+        "type": "subscribe-event",
+        "z": "18c1a16c3624dbe9",
+        "name": "",
+        "topic": "",
+        "thing": "ecf5c7010241d155",
+        "event": "exit",
+        "x": 140,
+        "y": 700,
+        "wires": [
+            [
+                "35a1c8f58317fa37"
+            ]
+        ]
+    },
+    {
+        "id": "d37284e386a62d51",
+        "type": "function",
+        "z": "18c1a16c3624dbe9",
+        "name": "Someone entered the room",
+        "func": "return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 460,
+        "wires": [
+            [
+                "2b0d0d43b1f902a8"
+            ]
+        ]
+    },
+    {
+        "id": "cac6dc39a8bb070b",
+        "type": "read-property",
+        "z": "18c1a16c3624dbe9",
+        "name": "",
+        "topic": "",
+        "thing": "b507ea74aba2255b",
+        "property": "brightnessLevel",
+        "uriVariables": "",
+        "interval": 5,
+        "observe": true,
+        "x": 190,
+        "y": 540,
+        "wires": [
+            [
+                "81f1b9b46745b38a"
+            ]
+        ]
+    },
+    {
+        "id": "81f1b9b46745b38a",
+        "type": "function",
+        "z": "18c1a16c3624dbe9",
+        "name": "Room brightness changed",
+        "func": "return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 540,
+        "wires": [
+            [
+                "2b0d0d43b1f902a8"
+            ]
+        ]
+    },
+    {
+        "id": "bf0827c2c7b32e19",
+        "type": "read-property",
+        "z": "18c1a16c3624dbe9",
+        "name": "",
+        "topic": "",
+        "thing": "ecf5c7010241d155",
+        "property": "detected",
+        "uriVariables": "",
+        "interval": 5,
+        "observe": true,
+        "x": 530,
+        "y": 760,
+        "wires": [
+            [
+                "2b0d0d43b1f902a8"
+            ]
+        ]
+    },
+    {
+        "id": "e81a166793d1ff49",
+        "type": "read-property",
+        "z": "18c1a16c3624dbe9",
+        "name": "",
+        "topic": "",
+        "thing": "79d668470421dc01",
+        "property": "userPolicy",
+        "uriVariables": "",
+        "interval": 5,
+        "observe": true,
+        "x": 170,
+        "y": 620,
+        "wires": [
+            [
+                "018e240aac75e7d9"
+            ]
+        ]
+    },
+    {
+        "id": "35a1c8f58317fa37",
+        "type": "function",
+        "z": "18c1a16c3624dbe9",
+        "name": "Someone exited the room",
+        "func": "return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 700,
+        "wires": [
+            [
+                "2b0d0d43b1f902a8"
+            ]
+        ]
+    },
+    {
+        "id": "018e240aac75e7d9",
+        "type": "function",
+        "z": "18c1a16c3624dbe9",
+        "name": "Vocal command received",
+        "func": "return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 620,
+        "wires": [
+            [
+                "2b0d0d43b1f902a8"
+            ]
+        ]
+    },
+    {
+        "id": "e1c672dda13c63d2",
+        "type": "invoke-action",
+        "z": "18c1a16c3624dbe9",
+        "name": "",
+        "topic": "",
+        "thing": "09bafd41c31255f5",
+        "action": "switchOff",
+        "uriVariables": "",
+        "x": 1510,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "591489c47548ab6a",
+        "type": "read-property",
+        "z": "18c1a16c3624dbe9",
+        "name": "",
+        "topic": "",
+        "thing": "09bafd41c31255f5",
+        "property": "lightBrightnessLevel",
+        "uriVariables": "",
+        "interval": 5,
+        "observe": false,
+        "x": 500,
+        "y": 400,
+        "wires": [
+            [
+                "2b0d0d43b1f902a8"
+            ]
+        ]
+    },
+    {
+        "id": "d3f8722a40369012",
+        "type": "function",
+        "z": "18c1a16c3624dbe9",
+        "name": "Switch off if on",
+        "func": "if (msg.status == \"on\")\n    return msg;\nelse\n    return null;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1260,
+        "y": 740,
+        "wires": [
+            [
+                "e1c672dda13c63d2"
+            ]
+        ]
+    },
+    {
+        "id": "187519add89d2638",
+        "type": "read-property",
+        "z": "18c1a16c3624dbe9",
+        "name": "",
+        "topic": "",
+        "thing": "09bafd41c31255f5",
+        "property": "status",
+        "uriVariables": "",
+        "interval": 5,
+        "observe": false,
+        "x": 1060,
+        "y": 580,
+        "wires": [
+            [
+                "d3f8722a40369012",
+                "597506e6593ceed0"
+            ]
+        ]
+    },
+    {
+        "id": "07e42fbcab5e209f",
+        "type": "invoke-action",
+        "z": "18c1a16c3624dbe9",
+        "name": "",
+        "topic": "",
+        "thing": "09bafd41c31255f5",
+        "action": "switchOn",
+        "uriVariables": "",
+        "x": 1610,
+        "y": 360,
+        "wires": [
+            [
+                "46c99b0b160d0596"
+            ]
+        ]
+    },
+    {
+        "id": "46c99b0b160d0596",
+        "type": "invoke-action",
+        "z": "18c1a16c3624dbe9",
+        "name": "",
+        "topic": "",
+        "thing": "09bafd41c31255f5",
+        "action": "increaseBrightness",
+        "uriVariables": "",
+        "x": 1880,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "597506e6593ceed0",
+        "type": "switch",
+        "z": "18c1a16c3624dbe9",
+        "name": "Switch on and increase brightness",
+        "property": "status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1320,
+        "y": 420,
+        "wires": [
+            [
+                "07e42fbcab5e209f"
+            ],
+            [
+                "46c99b0b160d0596"
+            ]
+        ]
+    },
+    {
+        "id": "2b0d0d43b1f902a8",
+        "type": "function",
+        "z": "18c1a16c3624dbe9",
+        "name": "Update room status",
+        "func": "let userPreference = 30;\nlet minimalBrightnessLevel = 30;\nlet switchOffLevel = 50;\nif ((msg.userPolicy == \"alwaysOn\" && msg.lightBrightnessLevel < userPreference) ||\n    (msg.userPolicy == \"auto\" & msg.detected >= 1 & msg.brightnessLevel < minimalBrightnessLevel))\n    return [msg, null];\nelse if (msg.userPolicy == \"alwaysOff\" |\n        (msg.userPolicy == \"auto\" &\n            (msg.detected == 0 |\n            msg.brightnessLevel > switchOffLevel)\n        ))\n    return [null, msg];\nelse\n    return [null, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 580,
+        "wires": [
+            [
+                "597506e6593ceed0"
+            ],
+            [
+                "d3f8722a40369012"
+            ]
+        ]
+    },
+    {
+        "id": "7240992c0e2c1e79",
+        "type": "comment",
+        "z": "18c1a16c3624dbe9",
+        "name": "Case Description",
+        "info": "Switch on and increase brightness if:\n - User wants the light to be always on and the light brightness is not at the user preference level.\n - User policy is set to automatic, the room is not empty and it's not sufficiently illuminated.\n\nSwitch off if:\n - User wants the light to be always off.\n - User policy is set to automatic and the room is empty.\n - User policy is set to automatic and natural light has reached an optimal brightness.\n\nDon't change room status otherwise.",
+        "x": 800,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "ecf5c7010241d155",
+        "type": "consumed-thing",
+        "tdLink": "",
+        "td": "{\"id\":\"urn:pdt\",\"@context\":\"https://www.w3.org/2019/wot/td/v1\",\"title\":\"SmartPresenceDetectorThing\",\"description\":\"Smart Presence Detector to track presence of people\",\"securityDefinitions\":{\"nosec_sc\":{\"scheme\":\"nosec\"}},\"security\":[\"nosec_sc\"],\"properties\":{\"detected\":{\"type\":\"integer\",\"forms\":[{\"href\":\"http://localhost:10001/properties/detected\",\"op\":[\"readproperty\"],\"contentType\":\"application/json\"}],\"readOnly\":true,\"writeOnly\":false,\"observable\":true}},\"events\":{\"entrance\":{\"forms\":[{\"href\":\"http://localhost:10001/events/entrance\",\"op\":\"subscribeevent\",\"contentType\":\"application/json\"}]},\"exit\":{\"forms\":[{\"href\":\"http://localhost:10001/events/exit\",\"op\":\"subscribeevent\",\"contentType\":\"application/json\"}]}}}",
+        "http": true,
+        "ws": false,
+        "coap": false,
+        "mqtt": false,
+        "opcua": false,
+        "modbus": false,
+        "basicAuth": false,
+        "username": "",
+        "password": ""
+    },
+    {
+        "id": "b507ea74aba2255b",
+        "type": "consumed-thing",
+        "tdLink": "",
+        "td": "{\"id\":\"urn:slst\",\"@context\":\"https://www.w3.org/2019/wot/td/v1\",\"title\":\"SmartLightSensorThing\",\"description\":\"Smart Light Sensor to know the current level of brightness\",\"securityDefinitions\":{\"nosec_sc\":{\"scheme\":\"nosec\"}},\"security\":[\"nosec_sc\"],\"properties\":{\"brightnessLevel\":{\"type\":\"integer\",\"forms\":[{\"href\":\"http://localhost:10002/properties/brightnessLevel\",\"op\":[\"readproperty\"],\"contentType\":\"application/json\"}],\"readOnly\":true,\"writeOnly\":false,\"observable\":true}}}",
+        "http": true,
+        "ws": false,
+        "coap": false,
+        "mqtt": false,
+        "opcua": false,
+        "modbus": false,
+        "basicAuth": false,
+        "username": "",
+        "password": ""
+    },
+    {
+        "id": "79d668470421dc01",
+        "type": "consumed-thing",
+        "tdLink": "",
+        "td": "{\"id\":\"urn:vuit\",\"@context\":\"https://www.w3.org/2019/wot/td/v1\",\"title\":\"SmartVocalUIThing\",\"description\":\"Smart Vocal UI that listens for user vocal commands.\",\"securityDefinitions\":{\"nosec_sc\":{\"scheme\":\"nosec\"}},\"security\":[\"nosec_sc\"],\"properties\":{\"userPolicy\":{\"type\":\"string\",\"forms\":[{\"href\":\"http://localhost:10004/properties/userPolicy\",\"op\":[\"readproperty\"],\"contentType\":\"application/json\"}],\"readOnly\":true,\"writeOnly\":false,\"observable\":true}}}",
+        "http": true,
+        "ws": false,
+        "coap": false,
+        "mqtt": false,
+        "opcua": false,
+        "modbus": false,
+        "basicAuth": false,
+        "username": "",
+        "password": ""
+    },
+    {
+        "id": "09bafd41c31255f5",
+        "type": "consumed-thing",
+        "tdLink": "",
+        "td": "{\"id\":\"urn:slt\",\"@context\":\"https://www.w3.org/2019/wot/td/v1\",\"title\":\"SmartLightThing\",\"description\":\"Smart Light with control of brightness level\",\"securityDefinitions\":{\"nosec_sc\":{\"scheme\":\"nosec\"}},\"security\":[\"nosec_sc\"],\"properties\":{\"status\":{\"type\":\"string\",\"forms\":[{\"href\":\"http://localhost:10003/properties/status\",\"op\":[\"readproperty\"],\"contentType\":\"application/json\"}],\"readOnly\":true,\"writeOnly\":false},\"lightBrightnessLevel\":{\"type\":\"integer\",\"forms\":[{\"href\":\"http://localhost:10003/properties/lightBrightnessLevel\",\"op\":[\"readproperty\"],\"contentType\":\"application/json\"}],\"readOnly\":true,\"writeOnly\":false,\"observable\":true}},\"actions\":{\"switchOn\":{\"forms\":[{\"href\":\"http://localhost:10003/actions/switchOn\",\"op\":\"invokeaction\",\"contentType\":\"application/json\"}],\"safe\":false,\"idempotent\":true},\"switchOff\":{\"forms\":[{\"href\":\"http://localhost:10003/actions/switchOff\",\"op\":\"invokeaction\",\"contentType\":\"application/json\"}],\"safe\":false,\"idempotent\":true},\"increaseBrightness\":{\"forms\":[{\"href\":\"http://localhost:10003/actions/increaseBrightness\",\"op\":\"invokeaction\",\"contentType\":\"application/json\"}],\"safe\":false,\"idempotent\":true},\"decreaseBrightness\":{\"forms\":[{\"href\":\"http://localhost:10003/actions/decreaseBrightness\",\"op\":\"invokeaction\",\"contentType\":\"application/json\"}],\"safe\":false,\"idempotent\":true}}}",
+        "http": true,
+        "ws": false,
+        "coap": false,
+        "mqtt": false,
+        "opcua": false,
+        "modbus": false,
+        "basicAuth": false,
+        "username": "",
+        "password": ""
+    }
+]

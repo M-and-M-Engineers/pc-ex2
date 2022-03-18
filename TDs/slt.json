@@ -1,0 +1,91 @@
+{
+    "id": "urn:slt",
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "title": "SmartLightThing",
+    "description": "Smart Light with control of brightness level",
+    "securityDefinitions": {
+        "nosec_sc": {
+            "scheme": "nosec"
+        }
+    },
+    "security": [
+        "nosec_sc"
+    ],
+    "properties": {
+        "status": {
+            "type": "string",
+            "forms": [
+                {
+                    "href": "http://localhost:10003/properties/status",
+                    "op": [
+                        "readproperty"
+                    ],
+                    "contentType": "application/json"
+                }
+            ],
+            "readOnly": true,
+            "writeOnly": false
+        },
+        "lightBrightnessLevel": {
+            "type": "integer",
+            "forms": [
+                {
+                    "href": "http://localhost:10003/properties/lightBrightnessLevel",
+                    "op": [
+                        "readproperty"
+                    ],
+                    "contentType": "application/json"
+                }
+            ],
+            "readOnly": true,
+            "writeOnly": false,
+            "observable": true
+        }
+    },
+    "actions": {
+        "switchOn": {
+            "forms": [
+                {
+                    "href": "http://localhost:10003/actions/switchOn",
+                    "op": "invokeaction",
+                    "contentType": "application/json"
+                }
+            ],
+            "safe": false,
+            "idempotent": true
+        },
+        "switchOff": {
+            "forms": [
+                {
+                    "href": "http://localhost:10003/actions/switchOff",
+                    "op": "invokeaction",
+                    "contentType": "application/json"
+                }
+            ],
+            "safe": false,
+            "idempotent": true
+        },
+        "increaseBrightness": {
+            "forms": [
+                {
+                    "href": "http://localhost:10003/actions/increaseBrightness",
+                    "op": "invokeaction",
+                    "contentType": "application/json"
+                }
+            ],
+            "safe": false,
+            "idempotent": true
+        },
+        "decreaseBrightness": {
+            "forms": [
+                {
+                    "href": "http://localhost:10003/actions/decreaseBrightness",
+                    "op": "invokeaction",
+                    "contentType": "application/json"
+                }
+            ],
+            "safe": false,
+            "idempotent": true
+        }
+    }
+}

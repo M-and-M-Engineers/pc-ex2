@@ -1,0 +1,38 @@
+mas smart_room {
+
+    agent light_agent
+
+    agent room_brightness_agent
+
+    agent presence_agent
+
+    agent voice_agent
+
+    agent controller_agent
+
+    agent env_room_brightness_agent
+
+    workspace room {
+
+        artifact lightThing: things.LightThing {
+            focused-by: light_agent, env_room_brightness_agent, controller_agent
+        }
+
+        artifact presenceDetectorThing: things.PresenceDetectorThing {
+            focused-by: presence_agent, controller_agent
+        }
+
+        artifact lightSensorThing: things.LightSensorThing {
+            focused-by: room_brightness_agent, env_room_brightness_agent, controller_agent
+        }
+
+        artifact vocalUIThing: things.VocalUIThing {
+            focused-by: voice_agent, controller_agent
+        }
+
+        artifact externalLightSimulator: simulators.ExternalLightSimulator {
+            focused-by: room_brightness_agent, env_room_brightness_agent
+        }
+    }
+
+}

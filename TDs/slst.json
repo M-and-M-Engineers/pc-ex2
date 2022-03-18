@@ -1,0 +1,31 @@
+{
+    "id": "urn:slst",
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "title": "SmartLightSensorThing",
+    "description": "Smart Light Sensor to know the current level of brightness",
+    "securityDefinitions": {
+        "nosec_sc": {
+            "scheme": "nosec"
+        }
+    },
+    "security": [
+        "nosec_sc"
+    ],
+    "properties": {
+        "brightnessLevel": {
+            "type": "integer",
+            "forms": [
+                {
+                    "href": "http://localhost:10002/properties/brightnessLevel",
+                    "op": [
+                        "readproperty"
+                    ],
+                    "contentType": "application/json"
+                }
+            ],
+            "readOnly": true,
+            "writeOnly": false,
+            "observable": true
+        }
+    }
+}
