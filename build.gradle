@@ -60,10 +60,10 @@ task run (type: JavaExec, dependsOn: 'classes') {
     classpath sourceSets.main.runtimeClasspath
 }
 
-task slt (type: JavaExec, dependsOn: 'classes') {
-    description 'runs the Smart Light Thing'
-    main 'slt.SmartLightThingService'
-    args '10003'
+task pdt (type: JavaExec, dependsOn: 'classes') {
+    description 'runs the Presence Detector Thing'
+    main 'pdt.PresenceDetectorThingService'
+    args '10001'
     classpath sourceSets.main.runtimeClasspath
 }
 
@@ -74,6 +74,19 @@ task slst (type: JavaExec, dependsOn: 'classes') {
     classpath sourceSets.main.runtimeClasspath
 }
 
+task slt (type: JavaExec, dependsOn: 'classes') {
+    description 'runs the Smart Light Thing'
+    main 'slt.SmartLightThingService'
+    args '10003'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task vuit (type: JavaExec, dependsOn: 'classes') {
+    description 'runs the Vocal UI Thing'
+    main 'vuit.VocalUIThingService'
+    args '10004'
+    classpath sourceSets.main.runtimeClasspath
+}
 
 task uberJar(type: Jar, dependsOn: 'classes') {
     group      ' JaCaMo'
