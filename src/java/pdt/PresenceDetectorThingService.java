@@ -7,6 +7,7 @@ import io.vertx.core.http.ServerWebSocket;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.BodyHandler;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,7 +41,7 @@ public class PresenceDetectorThingService extends AbstractVerticle {
     private Router createRoutes() {
         Router router = Router.router(this.getVertx());
         router.get(PROPERTY_DETECTED).handler(this::getDetected);
-        router.post(ACTION_SET_DETECTED).handler(this::setDetected);
+        router.post(ACTION_SET_DETECTED).handler(BodyHandler.create()).handler(this::setDetected);
         return router;
     }
 
@@ -96,7 +97,7 @@ public class PresenceDetectorThingService extends AbstractVerticle {
     }
 
     private void setDetected(final RoutingContext routingContext) {
-        this.model.setDetected(Integer.parseInt(routingContext.getBodyAsString()))
+        this.model.setDetected(routingContext.getBodyAsJson().getLong("detected").intValue())
                 .onSuccess(unused -> routingContext.response().end());
     }
 
