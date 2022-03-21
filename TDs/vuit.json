@@ -27,5 +27,18 @@
             "writeOnly": false,
             "observable": true
         }
+    },
+    "actions": {
+        "setUserPolicy": {
+            "forms": [
+                {
+                    "href": "http://localhost:10004/actions/setUserPolicy",
+                    "op": "invokeaction",
+                    "contentType": "text/plain"
+                }
+            ],
+            "safe": false,
+            "idempotent": true
+        }
     }
 }

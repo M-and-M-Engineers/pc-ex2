@@ -28,6 +28,19 @@
             "observable": true
         }
     },
+    "actions": {
+        "setDetected": {
+            "forms": [
+                {
+                    "href": "http://localhost:10001/actions/setDetected",
+                    "op": "invokeaction",
+                    "contentType": "text/plain"
+                }
+            ],
+            "safe": false,
+            "idempotent": true
+        }
+    },
     "events": {
         "entrance": {
             "forms": [

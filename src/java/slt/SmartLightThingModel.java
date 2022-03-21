@@ -32,25 +32,41 @@ public class SmartLightThingModel implements SmartLightThing {
 
     @Override
     public Future<Void> switchOn() {
-        this.state = State.ON;
-        return null;
+        final Promise<Void> promise = Promise.promise();
+        synchronized (this) {
+            this.state = State.ON;
+            promise.complete();
+        }
+        return promise.future();
     }
 
     @Override
     public Future<Void> switchOff() {
-        this.state = State.OFF;
-        return null;
+        final Promise<Void> promise = Promise.promise();
+        synchronized (this) {
+            this.state = State.OFF;
+            promise.complete();
+        }
+        return promise.future();
     }
 
     @Override
     public Future<Void> increaseBrightness() {
-        this.brightnessLevel++;
-        return null;
+        final Promise<Void> promise = Promise.promise();
+        synchronized (this) {
+            this.brightnessLevel++;
+            promise.complete();
+        }
+        return promise.future();
     }
 
     @Override
     public Future<Void> decreaseBrightness() {
-        this.brightnessLevel--;
-        return null;
+        final Promise<Void> promise = Promise.promise();
+        synchronized (this) {
+            this.brightnessLevel--;
+            promise.complete();
+        }
+        return promise.future();
     }
 }

@@ -27,5 +27,18 @@
             "writeOnly": false,
             "observable": true
         }
+    },
+    "actions": {
+        "setBrightnessLevel": {
+            "forms": [
+                {
+                    "href": "http://localhost:10002/actions/setBrightnessLevel",
+                    "op": "invokeaction",
+                    "contentType": "text/plain"
+                }
+            ],
+            "safe": false,
+            "idempotent": true
+        }
     }
 }

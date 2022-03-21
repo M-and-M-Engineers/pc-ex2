@@ -14,9 +14,9 @@ import java.util.List;
 
 public class PresenceDetectorThingService extends AbstractVerticle {
 
-    private static final String PROPERTY_DETECTED = "/scm/properties/detected";
-    private static final String ACTION_SET_DETECTED = "/scm/actions/setDetected";
-    private static final String EVENTS = "/scm/events/";
+    private static final String PROPERTY_DETECTED = "/properties/detected";
+    private static final String ACTION_SET_DETECTED = "/actions/setDetected";
+    private static final String EVENTS = "/events/";
     private static final String ENTRANCE = EVENTS + "entrance";
     private static final String EXIT = EVENTS + "exit";
     private final List<ServerWebSocket> entranceSubscribers;

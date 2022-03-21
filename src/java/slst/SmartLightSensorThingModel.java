@@ -15,4 +15,14 @@ public class SmartLightSensorThingModel implements SmartLightSensorThing {
         }
         return promise.future();
     }
+
+    @Override
+    public Future<Void> setBrightnessLevel(final int level) {
+        final Promise<Void> promise = Promise.promise();
+        synchronized (this) {
+            this.brightnessLevel = level;
+            promise.complete();
+        }
+        return promise.future();
+    }
 }

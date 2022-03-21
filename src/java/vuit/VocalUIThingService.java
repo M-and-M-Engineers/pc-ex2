@@ -14,9 +14,9 @@ import java.util.List;
 
 public class VocalUIThingService extends AbstractVerticle {
 
-    private static final String PROPERTY_USER_POLICY = "/scm/properties/detected";
-    private static final String ACTION_SET_USER_POLICY = "/scm/actions/setDetected";
-    private static final String NEW_USER_POLICY = "/scm/events/newUserPolicy";
+    private static final String PROPERTY_USER_POLICY = "/properties/userPolicy";
+    private static final String ACTION_SET_USER_POLICY = "/actions/setUserPolicy";
+    private static final String NEW_USER_POLICY = "/events/newUserPolicy";
     private final List<ServerWebSocket> newUserPolicySubscribers;
     private final int port;
     private VocalUIThingModel model;
