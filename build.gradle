@@ -30,6 +30,7 @@ repositories {
 
 dependencies {
     compile group: 'org.jacamo', name: 'jacamo', version: '1.0'
+    implementation 'io.vertx:vertx-web:4.2.5'
 }
 
 sourceSets {
@@ -56,6 +57,20 @@ task run (type: JavaExec, dependsOn: 'classes') {
     main 'jacamo.infra.JaCaMoLauncher'
     args 'smart_room.jcm'
     // jvmArgs '-Xss15m'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task slt (type: JavaExec, dependsOn: 'classes') {
+    description 'runs the Smart Light Thing'
+    main 'slt.SmartLightThingService'
+    args '10003'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task slst (type: JavaExec, dependsOn: 'classes') {
+    description 'runs the Smart Light Sensor Thing'
+    main 'slst.SmartLightSensorThingService'
+    args '10002'
     classpath sourceSets.main.runtimeClasspath
 }
 
