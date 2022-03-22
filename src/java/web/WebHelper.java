@@ -20,7 +20,7 @@ public class WebHelper {
 
     private static final HttpClient CLIENT = HttpClient.newHttpClient();
 
-    public static Optional<Integer> emptyGet(final String uri) {
+    public static Optional<Integer> getAsInteger(final String uri) {
         try {
             final HttpRequest request = HttpRequest.newBuilder(URI.create(uri))
                     .GET()
@@ -34,7 +34,21 @@ public class WebHelper {
         return Optional.empty();
     }
 
-    public static void postSendingStringBody(final String uri, final JsonObject body) {
+    public static Optional<String> getAsString(final String uri) {
+        try {
+            final HttpRequest request = HttpRequest.newBuilder(URI.create(uri))
+                    .GET()
+                    .build();
+
+            final HttpResponse<String> response = CLIENT.send(request,  HttpResponse.BodyHandlers.ofString());
+            return Optional.of(response.body());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    public static void postSendingJsonBody(final String uri, final JsonObject body) {
         final HttpRequest req = HttpRequest.newBuilder(URI.create(uri))
                 .setHeader("content-type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body.toString()))

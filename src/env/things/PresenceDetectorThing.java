@@ -1,6 +1,7 @@
 package things;
 
 import cartago.INTERNAL_OPERATION;
+import cartago.ObsProperty;
 import cartago.tools.GUIArtifact;
 import io.vertx.core.json.JsonObject;
 import web.WebHelper;
@@ -18,7 +19,6 @@ public class PresenceDetectorThing extends GUIArtifact {
     private JSpinner spinner;
 
     public void setup() {
-        defineObsProperty("detected", 0);
         this.getDetected();
         this.subscribeToEntrance();
         this.subscribeToExit();
@@ -42,7 +42,7 @@ public class PresenceDetectorThing extends GUIArtifact {
 
     @INTERNAL_OPERATION
     void setDetected(int detectedPeople) {
-        WebHelper.postSendingStringBody(ACTION_SET_DETECTED, new JsonObject().put("detected", detectedPeople));
+        WebHelper.postSendingJsonBody(ACTION_SET_DETECTED, new JsonObject().put("detected", detectedPeople));
         this.getDetected();
     }
 
@@ -57,7 +57,13 @@ public class PresenceDetectorThing extends GUIArtifact {
     }
 
     private void getDetected() {
-        this.updateObsProperty("detected", WebHelper.emptyGet(PROPERTY_DETECTED).orElse(0));
+        final ObsProperty detected = getObsProperty("detected");
+
+        final int value = WebHelper.getAsInteger(PROPERTY_DETECTED).orElse(0);
+        if (detected == null)
+            this.defineObsProperty("detected", value);
+        else
+            detected.updateValue(value);
     }
 
     private void subscribeToEntrance() {

@@ -1,16 +1,22 @@
 package things;
 
 import cartago.INTERNAL_OPERATION;
+import cartago.ObsProperty;
 import cartago.tools.GUIArtifact;
+import io.vertx.core.json.JsonObject;
+import web.WebHelper;
 
 import javax.swing.*;
 
 public class VocalUIThing extends GUIArtifact {
 
+    private static final String HTTP_BASE_URI = "http://localhost:10004/";
+    private static final String PROPERTY_USER_POLICY = HTTP_BASE_URI + "properties/userPolicy";
+    private static final String ACTION_SET_USER_POLICY = HTTP_BASE_URI + "actions/setUserPolicy";
     private static final String MODE_TEXT = "Current Mode: ";
 
     public void setup() {
-        defineObsProperty("userPolicy", "auto");
+        this.getUserPolicy();
 
         JPanel panel = new JPanel();
 
@@ -48,7 +54,18 @@ public class VocalUIThing extends GUIArtifact {
 
     @INTERNAL_OPERATION
     void setUserPolicy(final String status) {
-        updateObsProperty("userPolicy", status);
+        WebHelper.postSendingJsonBody(ACTION_SET_USER_POLICY, new JsonObject().put("userPolicy", status));
+        this.getUserPolicy();
+    }
+
+    private void getUserPolicy() {
+        final ObsProperty userPolicy = getObsProperty("userPolicy");
+
+        final String value = WebHelper.getAsString(PROPERTY_USER_POLICY).orElse("auto");
+        if (userPolicy == null)
+            this.defineObsProperty("userPolicy", value);
+        else
+            userPolicy.updateValue(value);
     }
 
 }
