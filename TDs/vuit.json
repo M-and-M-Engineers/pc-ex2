@@ -34,7 +34,7 @@
                 {
                     "href": "http://localhost:10004/actions/setUserPolicy",
                     "op": "invokeaction",
-                    "contentType": "text/plain"
+                    "contentType": "application/json"
                 }
             ],
             "safe": false,

@@ -34,7 +34,7 @@
                 {
                     "href": "http://localhost:10002/actions/setBrightnessLevel",
                     "op": "invokeaction",
-                    "contentType": "text/plain"
+                    "contentType": "application/json"
                 }
             ],
             "safe": false,

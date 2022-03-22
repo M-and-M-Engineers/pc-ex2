@@ -34,7 +34,7 @@
                 {
                     "href": "http://localhost:10001/actions/setDetected",
                     "op": "invokeaction",
-                    "contentType": "text/plain"
+                    "contentType": "application/json"
                 }
             ],
             "safe": false,
