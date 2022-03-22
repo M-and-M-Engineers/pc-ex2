@@ -19,12 +19,10 @@ public class PresenceDetectorThing extends GUIArtifact {
     private JSpinner spinner;
 
     public void setup() {
-        this.getDetected();
         this.subscribeToEntrance();
         this.subscribeToExit();
 
         JPanel panel = new JPanel();
-
         panel.add(new JLabel("Number of people in the room"));
 
         SpinnerNumberModel model = new SpinnerNumberModel(0, 0, 5, 1);
@@ -32,6 +30,7 @@ public class PresenceDetectorThing extends GUIArtifact {
         this.spinner.addChangeListener(e -> execInternalOp("setDetected", this.spinner.getValue()));
         panel.add(this.spinner);
 
+        this.getDetected();
         JFrame frame = new JFrame("Presence Detector");
         frame.setSize(300, 75);
         frame.setContentPane(panel);
@@ -64,6 +63,7 @@ public class PresenceDetectorThing extends GUIArtifact {
             this.defineObsProperty("detected", value);
         else
             detected.updateValue(value);
+        this.spinner.setValue(value);
     }
 
     private void subscribeToEntrance() {

@@ -4,6 +4,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.BodyHandler;
 
 public class SmartLightSensorThingService extends AbstractVerticle {
 
@@ -25,7 +26,7 @@ public class SmartLightSensorThingService extends AbstractVerticle {
     private Router createRoutes() {
         Router router = Router.router(this.getVertx());
         router.get(PROPERTY_BRIGHTNESS).handler(this::getBrightness);
-        router.post(ACTION_SET_BRIGHTNESS).handler(this::setBrightnessLevel);
+        router.post(ACTION_SET_BRIGHTNESS).handler(BodyHandler.create()).handler(this::setBrightnessLevel);
         return router;
     }
 
@@ -39,7 +40,7 @@ public class SmartLightSensorThingService extends AbstractVerticle {
     }
 
     private void setBrightnessLevel(final RoutingContext routingContext) {
-        this.model.setBrightnessLevel(Integer.parseInt(routingContext.getBodyAsString())).onSuccess(unused -> routingContext.response().end());
+        this.model.setBrightnessLevel(routingContext.getBodyAsJson().getInteger("brightnessLevel")).onSuccess(unused -> routingContext.response().end());
     }
 
     public static void main(final String[] args) {

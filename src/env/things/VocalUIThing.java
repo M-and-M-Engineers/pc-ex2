@@ -14,34 +14,26 @@ public class VocalUIThing extends GUIArtifact {
     private static final String PROPERTY_USER_POLICY = HTTP_BASE_URI + "properties/userPolicy";
     private static final String ACTION_SET_USER_POLICY = HTTP_BASE_URI + "actions/setUserPolicy";
     private static final String MODE_TEXT = "Current Mode: ";
+    private JLabel label;
 
     public void setup() {
-        this.getUserPolicy();
-
         JPanel panel = new JPanel();
 
-        JLabel label = new JLabel(MODE_TEXT + "Automatic");
+        this.label = new JLabel();
         panel.add(label);
 
+        this.getUserPolicy();
+
         JButton switchOnButton = new JButton("Switch On");
-        switchOnButton.addActionListener(e -> {
-            label.setText(MODE_TEXT + "Always ON");
-            execInternalOp("setUserPolicy", "alwaysOn");
-        });
+        switchOnButton.addActionListener(e -> execInternalOp("setUserPolicy", "Always ON"));
         panel.add(switchOnButton);
 
         JButton switchOffButton = new JButton("Switch Off");
-        switchOffButton.addActionListener(e -> {
-            label.setText(MODE_TEXT + "Always OFF");
-            execInternalOp("setUserPolicy", "alwaysOff");
-        });
+        switchOffButton.addActionListener(e -> execInternalOp("setUserPolicy", "Always OFF"));
         panel.add(switchOffButton);
 
         JButton resetButton = new JButton("Reset");
-        resetButton.addActionListener(e -> {
-            label.setText(MODE_TEXT + "Automatic");
-            execInternalOp("setUserPolicy", "auto");
-        });
+        resetButton.addActionListener(e -> execInternalOp("setUserPolicy", "Automatic"));
         panel.add(resetButton);
 
         JFrame frame = new JFrame("User Commands Simulator");
@@ -61,11 +53,13 @@ public class VocalUIThing extends GUIArtifact {
     private void getUserPolicy() {
         final ObsProperty userPolicy = getObsProperty("userPolicy");
 
-        final String value = WebHelper.getAsString(PROPERTY_USER_POLICY).orElse("auto");
+        final String value = WebHelper.getAsString(PROPERTY_USER_POLICY).orElse("Automatic");
         if (userPolicy == null)
             this.defineObsProperty("userPolicy", value);
         else
             userPolicy.updateValue(value);
+
+       this.label.setText(MODE_TEXT + value);
     }
 
 }

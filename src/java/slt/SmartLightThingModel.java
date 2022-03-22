@@ -45,6 +45,7 @@ public class SmartLightThingModel implements SmartLightThing {
         final Promise<Void> promise = Promise.promise();
         synchronized (this) {
             this.state = State.OFF;
+            this.brightnessLevel = 0;
             promise.complete();
         }
         return promise.future();

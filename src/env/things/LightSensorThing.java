@@ -3,21 +3,30 @@ package things;
 import cartago.OPERATION;
 import cartago.ObsProperty;
 import cartago.tools.GUIArtifact;
+import io.vertx.core.json.JsonObject;
+import web.WebHelper;
 
 import javax.swing.*;
 
 public class LightSensorThing extends GUIArtifact {
 
+    private static final int PORT = 10002;
+    private static final String HOST = "localhost";
+    private static final String PROPERTY_BRIGHTNESS = "/properties/brightnessLevel";
+    private static final String ACTION_SET_BRIGHTNESS = "/actions/setBrightnessLevel";
+    private final String uri = "http://" + HOST + ":" + PORT;
+
     private static final String BRIGHTNESS_LEVEL_PROPERTY = "brightnessLevel";
     private static final String BRIGHTNESS_LABEL_TEXT = "Current brightness in the room: ";
-    private static final int INITIAL_BRIGHTNESS = 0;
     private JLabel label;
 
     public void setup() {
-        defineObsProperty(BRIGHTNESS_LEVEL_PROPERTY, INITIAL_BRIGHTNESS);
+
+        final int remoteBrightness = WebHelper.getAsInteger(this.uri + PROPERTY_BRIGHTNESS).orElse(-1);
+        defineObsProperty(BRIGHTNESS_LEVEL_PROPERTY, remoteBrightness);
 
         JPanel panel = new JPanel();
-        this.label = new JLabel(BRIGHTNESS_LABEL_TEXT + INITIAL_BRIGHTNESS);
+        this.label = new JLabel(BRIGHTNESS_LABEL_TEXT + remoteBrightness);
         panel.add(this.label);
 
         JFrame frame = new JFrame("Smart Light Sensor");
@@ -30,8 +39,14 @@ public class LightSensorThing extends GUIArtifact {
 
     @OPERATION
     void setBrightnessLevel(int totalBrightness) {
-        ObsProperty currentBrightness = getObsProperty(BRIGHTNESS_LEVEL_PROPERTY);
-        currentBrightness.updateValue(totalBrightness);
-        this.label.setText(BRIGHTNESS_LABEL_TEXT + currentBrightness.intValue());
+        final JsonObject brightnessJson = new JsonObject();
+        brightnessJson.put(BRIGHTNESS_LEVEL_PROPERTY, totalBrightness);
+        WebHelper.postSendingJsonBody(this.uri + ACTION_SET_BRIGHTNESS, brightnessJson);
+
+        final int remoteBrightness = WebHelper.getAsInteger(this.uri + PROPERTY_BRIGHTNESS).orElse(-1);
+        updateObsProperty(BRIGHTNESS_LEVEL_PROPERTY, remoteBrightness);
+        this.label.setText(BRIGHTNESS_LABEL_TEXT + remoteBrightness);
     }
+
+
 }

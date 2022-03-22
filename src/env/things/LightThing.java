@@ -1,8 +1,8 @@
 package things;
 
 import cartago.OPERATION;
-import cartago.ObsProperty;
 import cartago.tools.GUIArtifact;
+import web.WebHelper;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -10,36 +10,45 @@ import java.awt.*;
 
 public class LightThing extends GUIArtifact {
 
-    private enum LightStatus {
-        ON, OFF
-    }
+    private static final int PORT = 10003;
+    private static final String HOST = "localhost";
+    private static final String PROPERTY_STATE = "/properties/state";
+    private static final String PROPERTY_BRIGHTNESS = "/properties/lightBrightnessLevel";
+    private static final String ACTIONS_ON = "/actions/switchOn";
+    private static final String ACTIONS_OFF = "/actions/switchOff";
+    private static final String ACTIONS_INCREASE_BRIGHTNESS = "/actions/increaseBrightness";
+    private static final String ACTIONS_DECREASE_BRIGHTNESS = "/actions/decreaseBrightness";
+    private final String uri = "http://" + HOST + ":" + PORT;;
 
-    private static final String STATUS_PROPERTY = "status";
+    private static final String STATE_PROPERTY = "state";
     private static final String LIGHT_BRIGHTNESS_PROPERTY = "lightBrightnessLevel";
-    private static final String INITIAL_STATUS = LightStatus.OFF.toString();
-    private static final int RESET_LIGHT_BRIGHTNESS = 0;
-    private static final String STATUS_TEXT = "Status: ";
+    private static final String STATE_TEXT = "State: ";
     private static final String LIGHT_BRIGHTNESS_TEXT = "Current light brightness: ";
     private JLabel lightBrightnessLabel;
-    private JLabel statusLabel;
+    private JLabel stateLabel;
 
     public void setup() {
-        defineObsProperty(LIGHT_BRIGHTNESS_PROPERTY, RESET_LIGHT_BRIGHTNESS);
-        defineObsProperty(STATUS_PROPERTY, INITIAL_STATUS);
+
+        final int remoteBrightnessLevel = WebHelper.getAsInteger(this.uri + PROPERTY_BRIGHTNESS).orElse(-1);
+        defineObsProperty(LIGHT_BRIGHTNESS_PROPERTY, remoteBrightnessLevel);
+
+        final String remoteState = WebHelper.getAsString(this.uri + PROPERTY_STATE).orElse("");
+        defineObsProperty(STATE_PROPERTY, remoteState);
 
         final JPanel panel = new JPanel();
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        this.statusLabel = new JLabel(STATUS_TEXT + INITIAL_STATUS);
-        this.statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.statusLabel.setBorder(new EmptyBorder(10, 10, 0, 10));
-        panel.add(this.statusLabel);
+        this.stateLabel = new JLabel(STATE_TEXT + remoteState);
+        this.stateLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.stateLabel.setBorder(new EmptyBorder(10, 10, 0, 10));
+        panel.add(this.stateLabel);
 
-        this.lightBrightnessLabel = new JLabel(LIGHT_BRIGHTNESS_TEXT + RESET_LIGHT_BRIGHTNESS);
+        this.lightBrightnessLabel = new JLabel(LIGHT_BRIGHTNESS_TEXT + remoteBrightnessLevel);
         this.lightBrightnessLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.lightBrightnessLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        this.lightBrightnessLabel.setVisible(false);
+        if ("OFF".equals(remoteState))
+            this.lightBrightnessLabel.setVisible(false);
         panel.add(this.lightBrightnessLabel);
 
         final JFrame frame = new JFrame("Light Thing");
@@ -52,32 +61,42 @@ public class LightThing extends GUIArtifact {
 
     @OPERATION
     void switchOn() {
-        final ObsProperty status = getObsProperty(STATUS_PROPERTY);
-        status.updateValue(LightStatus.ON.toString());
-        this.statusLabel.setText(STATUS_TEXT + status.stringValue());
+        WebHelper.emptyPost(this.uri + ACTIONS_ON);
+        final String remoteState = WebHelper.getAsString(this.uri + PROPERTY_STATE).orElse("");
+
+        updateObsProperty(STATE_PROPERTY, remoteState);
+        this.stateLabel.setText(STATE_TEXT + remoteState);
         this.lightBrightnessLabel.setVisible(true);
     }
 
     @OPERATION
     void switchOff() {
-        final ObsProperty status = getObsProperty(STATUS_PROPERTY);
-        status.updateValue(LightStatus.OFF.toString());
-        this.statusLabel.setText(STATUS_TEXT + status.stringValue());
-        updateObsProperty(LIGHT_BRIGHTNESS_PROPERTY, RESET_LIGHT_BRIGHTNESS);
+        WebHelper.emptyPost(this.uri + ACTIONS_OFF);
+        final String remoteState = WebHelper.getAsString(this.uri + PROPERTY_STATE).orElse("");
+
+        updateObsProperty(STATE_PROPERTY, remoteState);
+        this.stateLabel.setText(STATE_TEXT + remoteState);
+
+        final int remoteBrightnessLevel = WebHelper.getAsInteger(this.uri + PROPERTY_BRIGHTNESS).orElse(-1);
+        updateObsProperty(LIGHT_BRIGHTNESS_PROPERTY, remoteBrightnessLevel);
         this.lightBrightnessLabel.setVisible(false);
     }
 
     @OPERATION
     void increaseBrightness() {
-        final ObsProperty brightness = getObsProperty(LIGHT_BRIGHTNESS_PROPERTY);
-        brightness.updateValue(brightness.intValue() + 1);
-        this.lightBrightnessLabel.setText(LIGHT_BRIGHTNESS_TEXT + brightness.intValue());
+        WebHelper.emptyPost(this.uri + ACTIONS_INCREASE_BRIGHTNESS);
+
+        final int remoteBrightnessLevel = WebHelper.getAsInteger(this.uri + PROPERTY_BRIGHTNESS).orElse(-1);
+        updateObsProperty(LIGHT_BRIGHTNESS_PROPERTY, remoteBrightnessLevel);
+        this.lightBrightnessLabel.setText(LIGHT_BRIGHTNESS_TEXT + remoteBrightnessLevel);
     }
 
     @OPERATION
     void decreaseBrightness() {
-        final ObsProperty brightness = getObsProperty(LIGHT_BRIGHTNESS_PROPERTY);
-        brightness.updateValue(brightness.intValue() - 1);
-        this.lightBrightnessLabel.setText(LIGHT_BRIGHTNESS_TEXT + brightness.intValue());
+        WebHelper.emptyPost(this.uri + ACTIONS_DECREASE_BRIGHTNESS);
+
+        final int remoteBrightnessLevel = WebHelper.getAsInteger(this.uri + PROPERTY_BRIGHTNESS).orElse(-1);
+        updateObsProperty(LIGHT_BRIGHTNESS_PROPERTY, remoteBrightnessLevel);
+        this.lightBrightnessLabel.setText(LIGHT_BRIGHTNESS_TEXT + remoteBrightnessLevel);
     }
 }

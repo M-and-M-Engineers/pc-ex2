@@ -1,5 +1,5 @@
 
-+!switchOffAction : status(Status) & Status == "ON" <-
++!switchOffAction : state(State) & State == "ON" <-
     .println("Switching lamp off");
     switchOff.
 
@@ -10,12 +10,12 @@
     increaseBrightness.
 
 
-+!switchOnAndIncreaseBrightness : status(Status) & Status == "OFF" <-
++!switchOnAndIncreaseBrightness : state(State) & State == "OFF" <-
     .println("Switching lamp on");
     switchOn;
     !increaseBrightnessAction.
 
-+!switchOnAndIncreaseBrightness : status(Status) & Status == "ON" <-
++!switchOnAndIncreaseBrightness : state(State) & State == "ON" <-
     !increaseBrightnessAction.
 
 { include("$jacamoJar/templates/common-cartago.asl") }

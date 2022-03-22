@@ -7,9 +7,9 @@ public enum State {
     public String toString() {
         switch (this){
             case ON:
-                return "on";
+                return "ON";
             case OFF:
-                return "off";
+                return "OFF";
             default:
                 throw new IllegalStateException("Unexpected value: " + this);
         }

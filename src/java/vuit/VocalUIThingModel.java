@@ -8,7 +8,7 @@ public class VocalUIThingModel implements VocalUIThingAPI {
     private String userPolicy;
 
     public VocalUIThingModel() {
-        this.userPolicy = "auto";
+        this.userPolicy = "Automatic";
     }
 
     @Override
