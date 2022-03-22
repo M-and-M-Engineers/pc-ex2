@@ -4,11 +4,11 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.ServerWebSocket;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -55,7 +55,7 @@ public class PresenceDetectorThingService extends AbstractVerticle {
                     iterator.remove();
                 else {
                     try {
-                        socket.write(((JsonObject) jsonObject.body()).toBuffer());
+                        socket.writeTextMessage("");
                     } catch (Exception exception) {
                         iterator.remove();
                     }
@@ -70,7 +70,7 @@ public class PresenceDetectorThingService extends AbstractVerticle {
                     iterator.remove();
                 else {
                     try {
-                        socket.write(((JsonObject) jsonObject.body()).toBuffer());
+                        socket.writeTextMessage("");
                     } catch (Exception exception) {
                         iterator.remove();
                     }
