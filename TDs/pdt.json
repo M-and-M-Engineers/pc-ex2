@@ -45,18 +45,20 @@
         "entrance": {
             "forms": [
                 {
-                    "href": "http://localhost:10001/events/entrance",
+                    "href": "ws://localhost:10001/events/entrance",
                     "op": "subscribeevent",
-                    "contentType": "application/json"
+                    "contentType": "application/json",
+                    "subprotocol": "websub"
                 }
             ]
         },
         "exit": {
             "forms": [
                 {
-                    "href": "http://localhost:10001/events/exit",
+                    "href": "ws://localhost:10001/events/exit",
                     "op": "subscribeevent",
-                    "contentType": "application/json"
+                    "contentType": "application/json",
+                    "subprotocol": "websub"
                 }
             ]
         }

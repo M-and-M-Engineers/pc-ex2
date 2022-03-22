@@ -3,12 +3,14 @@ package pdt;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.http.ServerWebSocket;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -79,7 +81,7 @@ public class PresenceDetectorThingService extends AbstractVerticle {
     }
 
     private void startServer(final Router router) {
-        this.getVertx().createHttpServer().webSocketHandler(handler -> {
+        this.getVertx().createHttpServer(new HttpServerOptions().setWebSocketSubProtocols(List.of("websub"))).webSocketHandler(handler -> {
             if (handler.path().equals(ENTRANCE))
                 this.entranceSubscribers.add(handler);
             else if (handler.path().equals(EXIT))

@@ -74,7 +74,7 @@ public class WebHelper {
     }
 
     public static void subscribeOn(final String uri, final Consumer<String> subscriber) {
-        CLIENT.newWebSocketBuilder().buildAsync(URI.create(uri), new WebSocket.Listener() {
+        CLIENT.newWebSocketBuilder().subprotocols("websub").buildAsync(URI.create(uri), new WebSocket.Listener() {
 
             private List<CharSequence> chars = new ArrayList<>();
             private CompletableFuture<?> completableFuture = new CompletableFuture<>();
